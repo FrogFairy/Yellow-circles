@@ -1,49 +1,47 @@
 import sys
 from random import randint
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5 import uic
 
-
-class MyPillow(QMainWindow):
+class Design(QWidget):
     def __init__(self):
-        try:
-            super().__init__()
-            uic.loadUi('желтые круги.ui', self)
-            self.setFixedSize(497, 376)
-            self.button.clicked.connect(self.run)
-            self.do_paint = False
-        except Exception as e:
-            print(e)
+        super().__init__()
+
+    def initUI(self):
+        self.setGeometry(300, 300, 497, 376)
+        self.setFixedSize(497, 376)
+        self.button = QPushButton(self)
+        self.button.setText('Нарисовать круги')
+        self.button.setGeometry(170, 140, 141, 41)
+
+
+class MyPillow(Design):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+        self.button.clicked.connect(self.run)
+        self.do_paint = False
 
     def run(self):
         self.paint()
 
     def paintEvent(self, event):
-        try:
-            if self.do_paint:
-                qp = QPainter()
-                qp.begin(self)
-                self.draw(qp)
-                qp.end()
-        except Exception as e:
-            print(e)
+        if self.do_paint:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw(qp)
+            qp.end()
 
     def paint(self):
-        try:
-            self.do_paint = True
-            self.repaint()
-        except Exception as e:
-            print(e)
+        self.do_paint = True
+        self.repaint()
 
     def draw(self, qp):
-        try:
-            qp.setBrush(QColor('yellow'))
-            a = randint(1, 376)
-            qp.drawEllipse(randint(0, 497), randint(0, 376), a, a)
-        except Exception as e:
-            print(e)
+        qp.setBrush(QColor(randint(0, 255), randint(0, 255), randint(0, 255)))
+        a = randint(1, 376)
+        qp.drawEllipse(randint(0, 497), randint(0, 376), a, a)
 
 
 def main():
